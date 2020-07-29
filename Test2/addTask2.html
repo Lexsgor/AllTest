@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addition Task 2</title>
+</head>
+
+<body>
+    <input type="number" max='99999999999999' id="in" onchange=result(this.value)>
+    <div id="out"></div>
+
+    <script>
+
+        function result() {
+            const e1 = ["", "один(а) ", "два(e) ", "три ", "четыре ",
+                "пять ", "шесть ", "семь ", "восемь ", "девять "];
+            const e2_1 = ["", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ",
+                "пятнадцать ", "шестнадцать ", "семнадцать ", "восемнадцать ", "девятнадцать "];
+            const e2 = ["", "---", "двадцать ", "тридцать ", "сорок ", "пятьдесят ",
+                "шесдесят ", "семьдесят ", "восемьдесят ", "девяносто "];
+            const e3 = ["", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ",
+                "шестьсот ", "семьсот ", "восемьсот ", "девятьсот "];
+            const rank = ["", "тысяча(-ь) ", "миллион(-ов) ", "миллиард(-ов) ", "триллион(-ов) "];
+            const number = document.getElementById("in").value;
+
+            let out = "";
+
+            numberArrey = String(number).split("").map(function (x) {
+                return parseInt(x);
+            });
+
+            let numberArreyE3 = [];
+
+            for (let index = numberArrey.length - 1; index >= 0; index -= 3) {
+                let i = Math.trunc((numberArrey.length - index) / 3)
+                numberArreyE3[i] = [];
+                numberArreyE3[i][2] = numberArrey[index];
+                numberArreyE3[i][1] = numberArrey[index - 1];
+                numberArreyE3[i][0] = numberArrey[index - 2];
+            }
+
+            let add = "";
+
+            for (let index = 0; index < numberArreyE3.length; index++) {
+                add = rank[index] + add;
+
+                if (numberArreyE3[index][2] && numberArreyE3[index][1] != 1) {
+                    add = e1[numberArreyE3[index][2]] + add;
+                }
+
+                if (numberArreyE3[index][1] == 1 && numberArreyE3[index][1]) {
+                    add = e2_1[numberArreyE3[index][2]] + add;
+                } else {
+                    if (numberArreyE3[index][1]) {
+                        add = e2[numberArreyE3[index][1]] + add;
+                    }
+                }
+
+                if (numberArreyE3[index][0]) {
+                    add = e3[numberArreyE3[index][0]] + add;
+                }
+            }
+
+            document.getElementById("out").innerHTML = add;
+        }
+
+    </script>
+
+</body>
+
+</html>
